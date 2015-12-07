@@ -43,7 +43,7 @@ describe('PhoneListCtrl', function(){
 
 	beforeEach(inject(function(_$httpBackend_, $rootScope, $controller){
 		$httpBackend = _$httpBackend_;
-		$httpBackend.expectGET('phones/phone.json').respond([{name: 'Nexus S'}, {name: 'Motorola DROID'}]);
+		$httpBackend.expectGET('phones/phones.json').respond([{name: 'Nexus S'}, {name: 'Motorola DROID'}]);
 
 		scope = $rootScope.$new();
 		ctrl = $controller('PhoneListCtrl', {$scope: scope});
