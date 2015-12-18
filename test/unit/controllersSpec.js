@@ -14,32 +14,15 @@
 // });
 
 
-// describe('PhoneListCtrl', function(){
-// 	var scope, ctrl;
-
-// 	beforeEach(module('phonecatApp'));
-
-// 	beforeEach(inject(function($controller){
-// 		scope = {};
-// 		ctrl = $controller('PhoneListCtrl', { $scope:scope });
-// 	}));
-
-// 	it('should create "phones" model with 3 phones', function() {
-// 		expect(scope.phones.length).toBe(3);
-// 	});
-
-// 	it('should set the default value of orderProp model', function(){
-// 		expect(scope.orderProp).toBe('age');
-// 	});
-// });
-
 describe('PhoneCat controllers', function(){
 
+//Load app module definition before each test.
+	beforeEach(module('phonecatApp'));
+	
 describe('PhoneListCtrl', function(){
 	var scope, ctrl, $httpBackend;
 
-	//Load app module definition before each test.
-	beforeEach(module('phonecatApp'));
+	
 
 	beforeEach(inject(function(_$httpBackend_, $rootScope, $controller){
 		$httpBackend = _$httpBackend_;
@@ -61,5 +44,27 @@ describe('PhoneListCtrl', function(){
 		expect(scope.orderProp).toBe('age');
 	});
 });
+
+
+describe('PhoneDetailCtrl', function(){
+    var scope, $httpBackend, ctrl;
+
+    beforeEach(inject(function(_$httpBackend_, $rootScope, $routeParams, $controller) {
+      $httpBackend = _$httpBackend_;
+      $httpBackend.expectGET('phones/xyz.json').respond({name:'phone xyz'});
+
+      $routeParams.phoneId = 'xyz';
+      scope = $rootScope.$new();
+      ctrl = $controller('PhoneDetailCtrl', {$scope: scope});
+    }));
+
+
+    it('should fetch phone detail', function() {
+      expect(scope.phone).toBeUndefined();
+      $httpBackend.flush();
+
+      expect(scope.phone).toEqual({name:'phone xyz'});
+    });
+  });
 
 });
